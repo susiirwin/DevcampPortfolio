@@ -3,6 +3,10 @@ class PortfoliosController < ApplicationController
     @portfolio_items = Portfolio.all
   end
 
+  def show
+    @portfolio_item = Portfolio.find(params[:id])
+  end
+
   def new
     @portfolio_item = Portfolio.new
   end
@@ -12,9 +16,24 @@ class PortfoliosController < ApplicationController
 
     respond_to do |format|
       if @portfolio_item.save
-        format.html { redirect_to @portfolio_item, notice: 'Your Portfolio Item is now live.' }
+        format.html { redirect_to portfolios_path, notice: 'Your Portfolio Item is now live.' }
       else
         format.html { render :new }
+      end
+    end
+  end
+
+  def edit
+    @portfolio_item = Portfolio.find(params[:id])
+  end
+
+  def update
+    @portfolio_item = Portfolio.find(params[:id])
+    respond_to do |format|
+      if @portfolio_item.update(portfolio_item_params)
+        format.html { redirect_to portfolios_path, notice: 'The record has been updated!' }
+      else
+        format.html { render :edit }
       end
     end
   end
